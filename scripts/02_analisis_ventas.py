@@ -1,8 +1,13 @@
+import os
+import sys
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, sum as _sum, avg, count, date_format, weekofyear
 from pyspark.sql.types import StructType, StructField, StringType, DoubleType, IntegerType, DateType
 from datetime import datetime, timedelta
 import random
+
+os.environ["PYSPARK_PYTHON"] = sys.executable
+os.environ["HADOOP_HOME"] = "C:\\hadoop"
 
 spark = SparkSession.builder \
     .appName("AnalisisVentas") \

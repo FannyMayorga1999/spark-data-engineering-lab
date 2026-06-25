@@ -11,7 +11,18 @@ Laboratorio de aprendizaje de Apache Spark (PySpark) para fundamentos de ingenie
 ## Setup
 
 ```bash
-# Configurar variables de entorno (Windows/MinGW)
+# 1. Clonar el repositorio y entrar al directorio
+cd spark-data-engineering-lab
+
+# 2. Crear y activar el entorno virtual
+python -m venv venv
+source venv/Scripts/activate  # En Windows/MinGW
+# ó: venv\Scripts\activate.bat  # En Windows CMD
+
+# 3. Instalar dependencias
+pip install -r requirements.txt
+
+# 4. Configurar variables de entorno (Windows/MinGW)
 source setenv.sh
 ```
 
