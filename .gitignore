@@ -1,0 +1,28 @@
+# Python virtual environment
+.venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Spark/Parquet generated output
+data/output/**/*.parquet/
+data/output/**/*.crc
+data/output/**/_SUCCESS
+data/output/**/.*.crc
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+Thumbs.db
+.DS_Store
+
+# Environment files
+.env
