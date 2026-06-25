@@ -3,6 +3,9 @@ import sys
 from pyspark.sql import SparkSession
 
 os.environ["PYSPARK_PYTHON"] = sys.executable
+os.environ["HADOOP_HOME"] = "C:\\hadoop"
+if "hadoop" not in os.environ.get("PATH", "").lower():
+    os.environ["PATH"] = os.path.join(os.environ["HADOOP_HOME"], "bin") + os.pathsep + os.environ.get("PATH", "")
 
 spark = SparkSession.builder \
     .appName("HolaSpark") \
