@@ -1,0 +1,409 @@
+================================================================================
+  PLAN DE EJERCICIOS PRÁCTICOS — PYSPARK DATA ENGINEERING
+  Proyecto: spark-data-engineering-lab
+================================================================================
+
+  NIVEL 0: CONFIGURACION Y PRIMEROS PASOS
+--------------------------------------------------------------------------------
+
+  [x] 00. Ejecutar 01_hola_spark.py y verificar que funciona
+  [x] 01. Ejecutar 02_analisis_ventas.py y explorar la salida Parquet
+
+  [ ] 02. Explorar el Spark UI (http://localhost:4040) mientras se ejecuta
+         un script. Identificar: Jobs, Stages, Tasks, SQL tab.
+
+  [ ] 03. Probar diferentes modos de SparkSession:
+         - .master("local[*]") vs .master("local[2]")
+         - .config("spark.sql.adaptive.enabled", "true")
+         - Observar diferencias en el plan físico con .explain()
+
+
+  NIVEL 1: FUNDAMENTOS DE DATAFRAMES
+--------------------------------------------------------------------------------
+
+  OBJETIVO: Dominar creacion de DataFrames, lecturas, filtros,
+  selecciones y operaciones basicas.
+
+  [X] 04. CARGA DE CSV
+         - Descargar y guardar data/input/ventas.csv (o usar dataset
+           de ejemplo de Spark: spark.read.csv())
+         - Cargar con inferSchema=True
+         - Mostrar schema con printSchema()
+         - Contar filas, columnas, mostrar primeras 10 filas
+
+  [ ] 05. MANEJO DE NULLOS
+         - Crear un DF con valores nulos intencionalmente
+         - Usar: isnull(), dropna(), fillna(), drop()
+         - Contar nulos por columna
+         - Estrategias: fillna con valor fijo, con media, con forward fill
+
+  [ ] 06. FILTROS Y CONDICIONALES
+         - Filtrar con: df.filter(), df.where()
+         - Condiciones compuestas: & (and), | (or), ~ (not)
+         - Filtrar por rango: .between()
+         - Filtrar por lista: .isin()
+         - Filtrar por patron: .startswith(), .contains()
+
+  [ ] 07. SELECCION Y RENOMBRE
+         - df.select("col1", "col2")
+         - df.select(col("a").alias("nuevo_nombre"))
+         - df.withColumnRenamed("viejo", "nuevo")
+         - df.drop("columna_a_eliminar")
+
+  [ ] 08. COLUMNAS DERIVADAS
+         - df.withColumn("nueva", col("a") + col("b"))
+         - df.withColumn("doble", col("precio") * 2)
+         - df.withColumn("concat", concat(col("nom"), lit(" "), col("ape")))
+
+
+  NIVEL 2: SQL Y AGREGACIONES
+--------------------------------------------------------------------------------
+
+  OBJETIVO: Usar Spark SQL y agregaciones grupales con fluidez.
+
+  [ ] 09. SPARK SQL BASICO
+         - Crear vista temporal: df.createOrReplaceTempView("mi_tabla")
+         - Consultas: SELECT, WHERE, GROUP BY, ORDER BY, LIMIT
+         - spark.sql("SELECT ...").show()
+         - Pasar variables desde Python a SQL usando {varname}
+
+  [ ] 10. AGREGACIONES CON groupBy
+         - groupBy + agg con: sum, avg, min, max, count, stddev
+         - Multiple agregaciones simultaneas
+         - groupBy multiples columnas
+         - .orderBy() descendente
+
+  [ ] 11. HAVING EN SPARK
+         - Filtrar grupos despues de GROUP BY
+         - Usar HAVING en SQL y .having() en DataFrame API
+
+  [ ] 12. PIVOT TABLES
+         - df.groupBy("categoria").pivot("region").sum("venta")
+         - Entender filas -> columnas
+
+  [ ] 13. ROLLUP Y CUBE
+         - df.rollup("region", "producto").sum("venta")
+         - df.cube("region", "producto").sum("venta")
+         - Identificar totales parciales y gran total
+
+
+  NIVEL 3: JOINS Y COMBINACION DE DATOS
+--------------------------------------------------------------------------------
+
+  OBJETIVO: Saber unir datasets correctamente.
+
+  [ ] 14. INNER JOIN
+         - Dos tablas: clientes (id, nombre) y pedidos (id, cliente_id, total)
+         - inner join, detectar filas que se pierden
+
+  [ ] 15. LEFT / RIGHT / FULL JOINS
+         - left join: todas las filas de la izquierda
+         - right join: todas las filas de la derecha
+         - full outer join: todas las filas de ambos lados
+         - Identificar y manejar nulls resultantes
+
+  [ ] 16. SEMI Y ANTI JOINS
+         - left_semi: solo columnas de la izquierda donde hay match
+         - left_anti: filas de la izquierda SIN match en la derecha
+
+  [ ] 17. JOIN CON CONDICIONES COMPLEJAS
+         - join con condiciones AND/OR
+         - join por rango de fechas
+         - self-join (una tabla consigo misma)
+
+  [ ] 18. BROADCAST JOIN
+         - Unir tabla grande + tabla pequenia
+         - Usar broadcast() y comparar plan fisico
+         - Verificar que se usa BroadcastHashJoin
+
+
+  NIVEL 4: FUNCIONES DE VENTANA (WINDOW FUNCTIONS)
+--------------------------------------------------------------------------------
+
+  OBJETIVO: Ranking, numeracion, diferencias entre filas vecinas.
+
+  [ ] 19. ROW_NUMBER, RANK, DENSE_RANK
+         - Particionar por categoria, ordenar por venta DESC
+         - Top-3 productos por categoria
+         - Entender diferencia entre rank y dense_rank
+
+  [ ] 20. LAG Y LEAD
+         - Para cada producto, venta del mes anterior (lag)
+         - Diferencia mes a mes: venta_actual - lag(venta)
+         - Lead: venta del mes siguiente
+
+  [ ] 21. SUM ACUMULADO (running total)
+         - SUM(venta) OVER (PARTITION BY producto ORDER BY fecha)
+         - Media movil de 3 / 7 periodos
+         - AVG() OVER (...) con frame: ROWS BETWEEN
+
+  [ ] 22. FIRST_VALUE / LAST_VALUE
+         - Primer y ultimo valor dentro de una ventana
+         - Apertura y cierre mensual
+
+
+  NIVEL 5: TRANSFORMACIONES AVANZADAS
+--------------------------------------------------------------------------------
+
+  OBJETIVO: Condicionales, UDFs, arrays, mapas.
+
+  [ ] 23. WHEN / OTHERWISE
+         - Clasificar productos en "Caro"/"Medio"/"Barato" segun precio
+         - Varias condiciones anidadas
+         - Sin usar UDF
+
+  [ ] 24. USER DEFINED FUNCTIONS (UDF)
+         - Funcion Python que calcula categoria de edad
+         - Registrar: spark.udf.register()
+         - Usar en SQL y en DataFrame API
+         - Probar con y sin decorador @udf
+         - Comparar rendimiento UDF vs when/otherwise
+
+  [ ] 25. PANDAS UDF (vectorized)
+         - @pandas_udf de tipo Series -> Series
+         - Procesar columna con pandas dentro de Spark
+         - Comparar rendimiento vs UDF tradicional
+
+  [ ] 26. ARRAYS Y EXPLODE
+         - Columna con lista de valores
+         - explode() -> una fila por elemento
+         - collect_list() / collect_set() -> agregar a lista
+         - split() y explode() para tokenizar texto
+
+  [ ] 27. JSON
+         - Columna con string JSON: from_json(), get_json_object()
+         - json_tuple() para extraer multiples campos
+         - to_json() para crear columna JSON
+
+
+  NIVEL 6: MANEJO DE FECHAS Y TIEMPO
+--------------------------------------------------------------------------------
+
+  OBJETIVO: Operaciones temporales.
+
+  [ ] 28. EXTRACCION DE COMPONENTES
+         - year(), month(), dayofmonth(), dayofweek(), weekofyear()
+         - hora(), minute(), second()
+         - date_format() para formatos personalizados
+
+  [ ] 29. DIFERENCIAS Y SUMAS
+         - datediff(), months_between()
+         - date_add(), date_sub(), add_months()
+         - last_day() (fin de mes)
+         - next_day() (proximo lunes, etc.)
+
+  [ ] 30. TRUNCAMIENTO Y REDONDEO
+         - date_trunc("month", col), date_trunc("week", col)
+         - trunc(), floor() en fechas
+
+  [ ] 31. TIMESTAMP VS DATE
+         - to_timestamp(), to_date()
+         - Zonas horarias: to_utc_timestamp(), from_utc_timestamp()
+         - Unix timestamp: unix_timestamp(), from_unixtime()
+
+
+  NIVEL 7: ETL — EXTRACT, TRANSFORM, LOAD
+--------------------------------------------------------------------------------
+
+  OBJETIVO: Pipelines completos de datos.
+
+  [ ] 32. PIPELINE ETL BASICO
+         - Extract: leer CSV de data/input/
+         - Transform: limpiar nulos, filtrar, crear columnas
+         - Load: escribir en data/output/ como Parquet
+         - Verificar archivos generados
+
+  [ ] 33. PARTICIONADO EN ESCRITURA
+         - .partitionBy("region").parquet(...)
+         - .partitionBy("anio", "mes").parquet(...)
+         - Leer solo una particion y ver prediccion
+
+  [ ] 34. BUCKETING
+         - .bucketBy(4, "producto").sortBy("total_venta").saveAsTable(...)
+         - Leer tabla con bucketing
+         - Comparar con tabla sin bucketing
+
+  [ ] 35. MODOS DE ESCRITURA
+         - append, overwrite, ignore, errorifexists
+         - overwrite con dynamic partition overwrite
+         - Probar cada uno y entender comportamiento
+
+  [ ] 36. MULTIPLES FORMATOS
+         - Leer y escribir: CSV, JSON, Parquet, ORC, Avro
+         - Comparar tamanio en disco de cada formato
+         - Comparar velocidad de lectura
+
+  [ ] 37. SCHEMA EVOLUTION
+         - Escribir DF con schema A
+         - Leer y agregar columna
+         - Sobrescribir y ver si el schema evoluciona
+         - mergeSchema vs sin mergeSchema
+
+
+  NIVEL 8: OPTIMIZACION Y RENDIMIENTO
+--------------------------------------------------------------------------------
+
+  OBJETIVO: Hacer consultas mas rapidas y eficientes.
+
+  [ ] 38. EXPLAIN Y PLAN FISICO
+         - Consulta simple: .explain()
+         - .explain("cost"), .explain("formatted")
+         - .explain("codegen")
+         - Entender: Scan, Filter, Exchange, HashAggregate
+
+  [ ] 39. CACHE Y PERSIST
+         - .cache() vs .persist(StorageLevel.*)
+         - Medir tiempo con y sin cache
+         - Ver almacenamiento en Spark UI (Storage tab)
+         - .unpersist()
+
+  [ ] 40. REPARTITION Y COALESCE
+         - df.repartition(8) vs df.coalesce(2)
+         - Medir numero de particiones: df.rdd.getNumPartitions()
+         - Impacto en velocidad de escritura
+         - Cuando usar cada uno
+
+  [ ] 41. PREDICATE PUSHDOWN
+         - Leer Parquet/ORC con filtro
+         - Verificar que el filtro baja al scan
+         - Comparar con lectura completa + filtro en memoria
+
+  [ ] 42. COLUMN PROJECTION
+         - Leer solo las columnas necesarias
+         - spark.read.parquet("...").select("col1", "col2")
+         - Verificar que solo se leen esas columnas
+
+  [ ] 43. BROADCAST THRESHOLD
+         - autoBroadcastJoinThreshold
+         - Configurar manualmente y probar
+         - Ver plan fisico para confirmar
+
+  [ ] 44. CHECKPOINT
+         - Configurar directorio de checkpoint
+         - checkpoint() en medio de transformaciones largas
+         - Romper lineage con checkpoint
+         - Ver diferencia en plan de ejecucion
+
+
+  NIVEL 9: TEMPORALES Y STREAMING (INTRO)
+--------------------------------------------------------------------------------
+
+  OBJETIVO: Procesamiento por lotes contra ventanas temporales.
+
+  [ ] 45. VENTANAS FIJAS (tumbling window)
+         - Agrupar eventos cada 1 hora
+         - Usar window() con duracion fija
+         - groupBy(window("fecha", "1 hour"))
+
+  [ ] 46. VENTANAS DESLIZANTES (sliding window)
+         - window("fecha", "1 hour", "15 minutes")
+         - Cada 15 min, datos de la ultima hora
+         - Entender overlapping
+
+  [ ] 47. WATERMARK
+         - withWatermark() para datos tardios
+         - Establecer threshold de tolerancia
+         - Como afecta al resultado
+
+  [ ] 48. STREAMING CONCEPTUAL
+         - readStream para simular datos en tiempo real
+         - Formato rate: spark.readStream.format("rate")
+         - writeStream a consola o memoria
+         - Entender: Source -> StreamingQuery -> Sink
+
+
+  NIVEL 10: PROYECTOS INTEGRADORES
+--------------------------------------------------------------------------------
+
+  OBJETIVO: Aplicar todo lo aprendido en proyectos reales.
+
+  [ ] 49. ANALISIS DE LOGS DE SERVIDOR
+         - Generar logs sinteticos (timestamp, nivel, modulo, mensaje)
+         - Preguntas:
+           o Cuantos ERROR por hora?
+           o Cual es la hora pico de requests?
+           o Top 5 modulos con mas errores
+           o Tiempo entre errores (lag)
+         - Escribir resultados a Parquet particionado por dia
+
+  [ ] 50. SERIE TEMPORAL DE VENTAS
+         - Ventas diarias de 1 ano
+         - Calcular:
+           o Media movil 7 dias
+           o Diferencia dia a dia
+           o Dia con mayor venta por mes
+           o Acumulado anual
+         - Detectar outliers (ventas > 3 desviaciones)
+
+  [ ] 51. DEDUPLICACION DE REGISTROS
+         - Dataset con duplicados intencionales (misma clave, distintas fechas)
+         - Quedarse con el registro mas reciente por clave
+         - Usar row_number() + Window + filter
+         - Contar duplicados eliminados
+
+  [ ] 52. TABLA DE HECHOS Y DIMENSIONES (Star Schema)
+         - Fact table: fact_ventas (fecha_id, prod_id, cliente_id, total)
+         - Dim tables: dim_producto, dim_cliente, dim_tiempo
+         - Cargar cada dimension
+         - Joins y consultas analiticas
+         - Escribir como tablas gestionadas
+
+  [ ] 53. SCD TYPE 2 (Slowly Changing Dimension)
+         - Dimension de clientes con historial
+         - Cuando un cliente cambia de ciudad: nuevo registro con fecha vigencia
+         - Consultar estado en un punto del tiempo
+         - Simular cambios y mostrar historia
+
+  [ ] 54. DATOS DE TEXTO NO ESTRUCTURADO
+         - Cargar texto libre (resenas, comentarios)
+         - Tokenizar con split y explode
+         - Contar palabras mas frecuentes
+         - Filtrar stop words
+         - TF-IDF basico con Spark MLlib
+
+  [ ] 55. PIPEINE ETL COMPLETO
+         - Diseniar pipeline:
+           1. Extraer CSV o JSON de data/input/
+           2. Validar schema (rechazar registros malos)
+           3. Limpiar nulos y duplicados
+           4. Transformar (nuevas columnas, joins con dims)
+           5. Escribir: Parquet + tabla SQL + resumen JSON
+         - Hacerlo modular: funciones separadas
+         - Aniadir logging
+
+
+  NIVEL EXTRA: DOCKER Y ORQUESTACION
+--------------------------------------------------------------------------------
+
+  [ ] 56. DOCKERIZAR EL LABORATORIO
+         - Crear Dockerfile con Python + PySpark + Java
+         - docker-compose.yml con servicio spark
+         - Montar volumen para scripts y datos
+
+  [ ] 57. AIRFLOW / DAG
+         - Definir DAG simple con 3 tareas:
+           1. spark-submit 01_hola_spark.py
+           2. spark-submit 02_analisis_ventas.py
+           3. Verificar salida Parquet
+         - Ejecutar dag manual (sin scheduler)
+
+================================================================================
+  LEYENDA
+--------------------------------------------------------------------------------
+  [x] = ya implementado en el proyecto
+  [ ] = pendiente de realizar
+
+  Cada ejercicio esta diseniado para que escribas el codigo tu mismo,
+  consultando la documentacion oficial y los scripts existentes como
+  referencia.
+
+  Para cada ejercicio, sigue esta metodologia:
+    1. Crear un nuevo archivo scripts/XX_descripcion.py
+    2. Escribir el codigo (intentar sin mirar soluciones)
+    3. Ejecutar y verificar resultados
+    4. Si falla, debuggear con print() y .explain()
+
+================================================================================
+  CREADO: 2026-06-29
+  PROYECTO: https://github.com/anomalyco/spark-data-engineering-lab
+================================================================================

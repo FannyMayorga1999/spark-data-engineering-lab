@@ -1,0 +1,9 @@
+nombre,departamento,edad,salario,fecha_ingreso
+Alice,Ingenieria,34,50000.0,2024-01-15
+Bob,Ventas,45,60000.0,2023-11-20
+Carlos,Ingenieria,29,45000.0,2024-03-10
+Diana,RH,38,55000.0,2023-08-05
+Eva,Ventas,27,,2024-06-01
+Frank,Ingenieria,,52000.0,2024-02-14
+Gloria,RH,42,48000.0,
+Hector,Ventas,31,58000.0,2023-12-01

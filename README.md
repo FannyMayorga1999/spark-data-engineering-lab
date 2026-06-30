@@ -96,6 +96,9 @@ source setenv.sh
 python scripts/01_hola_spark.py
 python scripts/02_analisis_ventas.py
 
+source setenv.sh && python scripts/03_carga_csv_guiado.py
+
+
 # Los archivos Parquet se escriben en:
 ls data/output/ventas.parquet/
 ```
