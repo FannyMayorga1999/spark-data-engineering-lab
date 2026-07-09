@@ -31,13 +31,13 @@
          - Mostrar schema con printSchema()
          - Contar filas, columnas, mostrar primeras 10 filas
 
-  [ ] 05. MANEJO DE NULLOS
+  [x] 05. MANEJO DE NULLOS
          - Crear un DF con valores nulos intencionalmente
          - Usar: isnull(), dropna(), fillna(), drop()
          - Contar nulos por columna
          - Estrategias: fillna con valor fijo, con media, con forward fill
 
-  [ ] 06. FILTROS Y CONDICIONALES
+  [x] 06. FILTROS Y CONDICIONALES
          - Filtrar con: df.filter(), df.where()
          - Condiciones compuestas: & (and), | (or), ~ (not)
          - Filtrar por rango: .between()
