@@ -44,13 +44,13 @@
          - Filtrar por lista: .isin()
          - Filtrar por patron: .startswith(), .contains()
 
-  [ ] 07. SELECCION Y RENOMBRE
+  [x] 07. SELECCION Y RENOMBRE
          - df.select("col1", "col2")
          - df.select(col("a").alias("nuevo_nombre"))
          - df.withColumnRenamed("viejo", "nuevo")
          - df.drop("columna_a_eliminar")
 
-  [ ] 08. COLUMNAS DERIVADAS
+  [x] 08. COLUMNAS DERIVADAS
          - df.withColumn("nueva", col("a") + col("b"))
          - df.withColumn("doble", col("precio") * 2)
          - df.withColumn("concat", concat(col("nom"), lit(" "), col("ape")))
