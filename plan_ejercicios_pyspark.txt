@@ -61,13 +61,13 @@
 
   OBJETIVO: Usar Spark SQL y agregaciones grupales con fluidez.
 
-  [ ] 09. SPARK SQL BASICO
+  [x] 09. SPARK SQL BASICO
          - Crear vista temporal: df.createOrReplaceTempView("mi_tabla")
          - Consultas: SELECT, WHERE, GROUP BY, ORDER BY, LIMIT
          - spark.sql("SELECT ...").show()
          - Pasar variables desde Python a SQL usando {varname}
 
-  [ ] 10. AGREGACIONES CON groupBy
+  [x] 10. AGREGACIONES CON groupBy
          - groupBy + agg con: sum, avg, min, max, count, stddev
          - Multiple agregaciones simultaneas
          - groupBy multiples columnas
