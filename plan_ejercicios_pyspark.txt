@@ -73,11 +73,11 @@
          - groupBy multiples columnas
          - .orderBy() descendente
 
-  [ ] 11. HAVING EN SPARK
+  [x] 11. HAVING EN SPARK
          - Filtrar grupos despues de GROUP BY
          - Usar HAVING en SQL y .having() en DataFrame API
 
-  [ ] 12. PIVOT TABLES
+  [x] 12. PIVOT TABLES
          - df.groupBy("categoria").pivot("region").sum("venta")
          - Entender filas -> columnas
 
