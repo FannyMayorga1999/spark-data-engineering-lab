@@ -81,10 +81,10 @@
          - df.groupBy("categoria").pivot("region").sum("venta")
          - Entender filas -> columnas
 
-  [ ] 13. ROLLUP Y CUBE
-         - df.rollup("region", "producto").sum("venta")
-         - df.cube("region", "producto").sum("venta")
-         - Identificar totales parciales y gran total
+  [x] 13. ROLLUP Y CUBE
+          - df.rollup("region", "producto").sum("venta")
+          - df.cube("region", "producto").sum("venta")
+          - Identificar totales parciales y gran total
 
 
   NIVEL 3: JOINS Y COMBINACION DE DATOS
@@ -92,9 +92,9 @@
 
   OBJETIVO: Saber unir datasets correctamente.
 
-  [ ] 14. INNER JOIN
-         - Dos tablas: clientes (id, nombre) y pedidos (id, cliente_id, total)
-         - inner join, detectar filas que se pierden
+  [x] 14. INNER JOIN
+          - Dos tablas: clientes (id, nombre) y pedidos (id, cliente_id, total)
+          - inner join, detectar filas que se pierden
 
   [ ] 15. LEFT / RIGHT / FULL JOINS
          - left join: todas las filas de la izquierda
