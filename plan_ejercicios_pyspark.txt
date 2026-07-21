@@ -96,15 +96,15 @@
           - Dos tablas: clientes (id, nombre) y pedidos (id, cliente_id, total)
           - inner join, detectar filas que se pierden
 
-  [ ] 15. LEFT / RIGHT / FULL JOINS
-         - left join: todas las filas de la izquierda
-         - right join: todas las filas de la derecha
-         - full outer join: todas las filas de ambos lados
-         - Identificar y manejar nulls resultantes
+   [x] 15. LEFT / RIGHT / FULL JOINS
+          - left join: todas las filas de la izquierda
+          - right join: todas las filas de la derecha
+          - full outer join: todas las filas de ambos lados
+          - Identificar y manejar nulls resultantes
 
-  [ ] 16. SEMI Y ANTI JOINS
-         - left_semi: solo columnas de la izquierda donde hay match
-         - left_anti: filas de la izquierda SIN match en la derecha
+   [x] 16. SEMI Y ANTI JOINS
+          - left_semi: solo columnas de la izquierda donde hay match
+          - left_anti: filas de la izquierda SIN match en la derecha
 
   [ ] 17. JOIN CON CONDICIONES COMPLEJAS
          - join con condiciones AND/OR
