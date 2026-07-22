@@ -106,15 +106,15 @@
           - left_semi: solo columnas de la izquierda donde hay match
           - left_anti: filas de la izquierda SIN match en la derecha
 
-  [ ] 17. JOIN CON CONDICIONES COMPLEJAS
-         - join con condiciones AND/OR
-         - join por rango de fechas
-         - self-join (una tabla consigo misma)
+   [x] 17. JOIN CON CONDICIONES COMPLEJAS
+          - join con condiciones AND/OR
+          - join por rango de fechas
+          - self-join (una tabla consigo misma)
 
-  [ ] 18. BROADCAST JOIN
-         - Unir tabla grande + tabla pequenia
-         - Usar broadcast() y comparar plan fisico
-         - Verificar que se usa BroadcastHashJoin
+   [x] 18. BROADCAST JOIN
+          - Unir tabla grande + tabla pequenia
+          - Usar broadcast() y comparar plan fisico
+          - Verificar que se usa BroadcastHashJoin
 
 
   NIVEL 4: FUNCIONES DE VENTANA (WINDOW FUNCTIONS)
@@ -122,15 +122,15 @@
 
   OBJETIVO: Ranking, numeracion, diferencias entre filas vecinas.
 
-  [ ] 19. ROW_NUMBER, RANK, DENSE_RANK
-         - Particionar por categoria, ordenar por venta DESC
-         - Top-3 productos por categoria
-         - Entender diferencia entre rank y dense_rank
+   [x] 19. ROW_NUMBER, RANK, DENSE_RANK
+          - Particionar por categoria, ordenar por venta DESC
+          - Top-3 productos por categoria
+          - Entender diferencia entre rank y dense_rank
 
-  [ ] 20. LAG Y LEAD
-         - Para cada producto, venta del mes anterior (lag)
-         - Diferencia mes a mes: venta_actual - lag(venta)
-         - Lead: venta del mes siguiente
+   [x] 20. LAG Y LEAD
+          - Para cada producto, venta del mes anterior (lag)
+          - Diferencia mes a mes: venta_actual - lag(venta)
+          - Lead: venta del mes siguiente
 
   [ ] 21. SUM ACUMULADO (running total)
          - SUM(venta) OVER (PARTITION BY producto ORDER BY fecha)
